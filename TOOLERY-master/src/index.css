@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   TOOLERY 3D LUXURY DESIGN SYSTEM
+========================================================= */
+
+:root {
+  color-scheme: dark;
+  --bg-dark: #07080e;
+  --accent-cyan: #06b6d4;
+  --accent-indigo: #6366f1;
+  --accent-purple: #a855f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: var(--bg-dark);
+  color: #f1f5f9;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Custom sleek dark scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07080e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e2235;
+  border-radius: 9999px;
+  border: 2px solid #07080e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #313854;
+}
+
+/* Checkerboard pattern for transparent cutouts */
+.bg-checkerboard {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(45deg, #1c1d29 25%, transparent 25%), 
+    linear-gradient(-45deg, #1c1d29 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #1c1d29 75%), 
+    linear-gradient(-45deg, transparent 75%, #1c1d29 75%);
+  background-color: #12131c;
+}
+
+/* Tilt card 3D effect transition */
+.tilt-card {
+  will-change: transform;
+}
+
+/* Custom range sliders */
+input[type="range"] {
+  -webkit-appearance: none;
+  background: #1e2235;
+  height: 6px;
+  border-radius: 9999px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #06b6d4;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s infinite ease-in-out;
+}
