@@ -91,7 +91,11 @@ export default function Home({ onOpenSupabase }) {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-lg shadow-indigo-500/10 animate-fade-in">
             <span className="flex h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></span>
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-              Next-Gen Neural Media & Document Suite
+              Next-Gen Neural Studio
+            </span>
+            <span className="text-slate-600">•</span>
+            <span className="text-xs font-medium text-slate-300">
+              Developed by <strong className="text-cyan-400 font-bold tracking-wide">VRAJ PATEL</strong>
             </span>
           </div>
 

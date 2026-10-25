@@ -52,12 +52,18 @@ export default function Navbar({ onOpenCommand, onOpenSupabase }) {
             </div>
           </div>
           <div>
-            <span className="text-lg font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
-              TOOLERY
-            </span>
-            <span className="ml-1.5 px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 uppercase tracking-wider">
-              3D Studio
-            </span>
+            <div className="flex items-center">
+              <span className="text-lg font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                TOOLERY
+              </span>
+              <span className="ml-1.5 px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 uppercase tracking-wider">
+                3D Studio
+              </span>
+            </div>
+            <div className="text-[10px] font-medium tracking-wide text-slate-400 -mt-0.5 flex items-center gap-1">
+              <span>developed by</span>
+              <span className="text-cyan-400 font-bold group-hover:text-cyan-300 transition-colors uppercase tracking-wider text-[9px] px-1 py-0.2 rounded bg-cyan-500/10 border border-cyan-500/20">VRAJ PATEL</span>
+            </div>
           </div>
         </Link>
 
@@ -229,6 +235,10 @@ export default function Navbar({ onOpenCommand, onOpenSupabase }) {
                 Sign In
               </Link>
             )}
+
+            <div className="pt-2 text-center text-[11px] text-slate-500">
+              Developed with ❤️ by <span className="text-cyan-400 font-semibold">VRAJ PATEL</span>
+            </div>
           </div>
         </div>
       )}

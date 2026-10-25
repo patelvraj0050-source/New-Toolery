@@ -50,8 +50,12 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-        <div>
-          © {new Date().getFullYear()} Toolery 3D Creative Suite. Open architecture.
+        <div className="flex flex-wrap items-center gap-2">
+          <span>© {new Date().getFullYear()} Toolery 3D Creative Suite.</span>
+          <span className="hidden sm:inline text-slate-700">•</span>
+          <span className="text-slate-400">
+            Designed & Developed by <strong className="text-white hover:text-cyan-400 transition-colors font-semibold">VRAJ PATEL</strong>
+          </span>
         </div>
         <div className="flex items-center gap-4 text-xs">
           <span className="flex items-center gap-1.5 text-slate-400">
