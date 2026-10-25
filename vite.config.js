@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    watch: {
+      ignored: ['**/TOOLERY-master/**', '**/.git/**'],
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:5000',

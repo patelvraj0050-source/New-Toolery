@@ -5,6 +5,7 @@ import { getSupabaseClient } from '../lib/supabase';
 import { setJSON, getJSON } from '../utils/storage';
 import { toast } from '../components/Toast';
 import TiltCard from '../components/TiltCard';
+import SocialLoginButtons from '../components/SocialLoginButtons';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -77,7 +78,10 @@ export default function Login() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
+            <SocialLoginButtons mode="signin" />
+
+            <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
                 <Mail size={13} className="text-indigo-400" />
@@ -117,6 +121,7 @@ export default function Login() {
               <ArrowRight size={15} />
             </button>
           </form>
+          </div>
 
           <div className="mt-6 pt-5 border-t border-white/10 text-center text-xs text-slate-400">
             Don't have an account yet?{' '}

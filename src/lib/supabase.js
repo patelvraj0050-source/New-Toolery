@@ -82,6 +82,25 @@ export const testSupabaseConnection = async (url, key) => {
   }
 };
 
+export const signInWithOAuthProvider = async (provider = 'google') => {
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+      if (error) throw error;
+      return { success: true, data };
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  }
+  return { success: false, message: 'Supabase client not connected.' };
+};
+
 // ==========================================
 // HIGH LEVEL SUPABASE DATA HELPERS (WITH LOCAL FALLBACK)
 // ==========================================

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { getSupabaseClient } from './lib/supabase';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -21,6 +22,25 @@ export default function App() {
   const location = useLocation();
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [isSupabaseOpen, setIsSupabaseOpen] = useState(false);
+
+  useEffect(() => {
+    const supabase = getSupabaseClient();
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        if (session?.user) {
+          const userObj = {
+            name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0],
+            email: session.user.email,
+            id: session.user.id,
+            avatar: session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture,
+          };
+          localStorage.setItem('toolery_user', JSON.stringify(userObj));
+          window.dispatchEvent(new Event('storage'));
+        }
+      });
+      return () => subscription?.unsubscribe();
+    }
+  }, []);
 
   // Show footer on main landing and informational pages
   const showFooter = ['/', '/contact', '/settings'].includes(location.pathname);
