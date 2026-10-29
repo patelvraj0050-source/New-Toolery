@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { 
   Sparkles, Image as ImageIcon, Download, Sliders, RefreshCw, Layers, 
   Check, Copy, ArrowRight, Eye, ShieldCheck, Sun, Palette, UploadCloud,
-  FileCheck, AlertCircle, Maximize2
+  FileCheck, AlertCircle, Maximize2, Zap, Clock
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { removeImageBackground, compositeBackground, compressImage, resizeImage } from '../lib/imageProcessor';
@@ -28,6 +28,7 @@ export default function ImageStudio() {
 
   // Custom Background Options
   const [bgType, setBgType] = useState('transparent'); // 'transparent' | 'color' | 'gradient' | 'image' | 'blur'
+  const [engineMode, setEngineMode] = useState('turbo'); // 'turbo' (instant 1-2s) | 'neural' (deep learning)
   const [bgColor, setBgColor] = useState('#FFFFFF');
   const [bgGradient, setBgGradient] = useState('cyber');
   const [customBgFile, setCustomBgFile] = useState(null);
@@ -106,7 +107,7 @@ export default function ImageStudio() {
     try {
       const resultBlob = await removeImageBackground(bgFile, (prog) => {
         setBgProgress({ percent: prog.percent, text: prog.text });
-      });
+      }, { mode: engineMode });
 
       setCutoutBlob(resultBlob);
       const cutoutUrl = URL.createObjectURL(resultBlob);
@@ -382,22 +383,66 @@ export default function ImageStudio() {
                   </div>
                 </div>
 
+                {/* Engine Mode Selector */}
+                <div className="mt-4 p-3 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="text-slate-300 flex items-center gap-1.5">
+                      <Zap size={13} className="text-cyan-400" />
+                      Speed Mode:
+                    </span>
+                    <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                      <Clock size={11} />
+                      {engineMode === 'turbo' ? '⚡ ~1.8s Response (Instant)' : '🧠 Deep ISNet (Sub-15s)'}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setEngineMode('turbo')}
+                      className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                        engineMode === 'turbo'
+                          ? 'bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md shadow-cyan-500/20'
+                          : 'bg-white/[0.03] text-slate-400 hover:text-white border border-white/5'
+                      }`}
+                    >
+                      <Zap size={13} />
+                      <span>Turbo AI (1-2s)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEngineMode('neural')}
+                      className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                        engineMode === 'neural'
+                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/20'
+                          : 'bg-white/[0.03] text-slate-400 hover:text-white border border-white/5'
+                      }`}
+                    >
+                      <Sparkles size={13} />
+                      <span>Deep Neural</span>
+                    </button>
+                  </div>
+                </div>
+
                 {/* Removal Trigger Button */}
                 <button
                   type="button"
                   disabled={!bgFile || isProcessingBg}
                   onClick={processBackgroundRemoval}
-                  className="w-full mt-6 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 via-indigo-600 to-cyan-500 hover:from-indigo-600 hover:to-cyan-400 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
+                  className="w-full mt-4 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 via-indigo-600 to-cyan-500 hover:from-indigo-600 hover:to-cyan-400 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
                 >
                   {isProcessingBg ? (
                     <>
                       <RefreshCw size={16} className="animate-spin" />
-                      <span>{bgProgress.text || 'Processing Neural Cutout...'}</span>
+                      <span>{bgProgress.text || 'Processing Cutout...'}</span>
                     </>
                   ) : (
                     <>
                       <Sparkles size={16} />
-                      <span>Remove Background (Publication Quality)</span>
+                      <span>
+                        {engineMode === 'turbo'
+                          ? '⚡ Remove Background (Instant 2s)'
+                          : '🧠 Remove Background (Deep Neural)'}
+                      </span>
                     </>
                   )}
                 </button>
@@ -615,12 +660,16 @@ export default function ImageStudio() {
                       <div className="font-bold text-white uppercase">{bgType === 'transparent' ? 'PNG (Alpha 32-bit)' : 'JPEG / PNG'}</div>
                     </div>
                     <div className="p-2.5 rounded-xl bg-slate-950/60 border border-white/5">
-                      <div className="text-slate-500">Segmentation Model</div>
-                      <div className="font-bold text-cyan-400">BiRefNet Neural</div>
+                      <div className="text-slate-500">Active Engine</div>
+                      <div className="font-bold text-cyan-400">
+                        {engineMode === 'turbo' ? 'Turbo AI Matting' : 'ISNet Deep Model'}
+                      </div>
                     </div>
                     <div className="p-2.5 rounded-xl bg-slate-950/60 border border-white/5">
-                      <div className="text-slate-500">Hardware Accel</div>
-                      <div className="font-bold text-emerald-400">WebAssembly / WebGL</div>
+                      <div className="text-slate-500">Response Speed</div>
+                      <div className="font-bold text-emerald-400">
+                        {engineMode === 'turbo' ? '⚡ ~1.8s (Instant)' : '🧠 Sub-15s'}
+                      </div>
                     </div>
                   </div>
                 )}
